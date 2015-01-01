@@ -9,8 +9,8 @@ var gulp = require('gulp'),
   html2js = require('gulp-html2js'),
   wrap = require("gulp-wrap"),
   userConfig = require('./build.config.js'),
-  templates = [{base: 'src/app', src: userConfig.app_files.atpl, dest: '/templates-app.js'},
-               {base: 'src/common', src: userConfig.app_files.ctpl, dest: '/templates-common.js'}];
+  templates = [{base: 'src/app', src: userConfig.app_files.atpl, module: 'templates-app', dest: '/templates-app.js'},
+               {base: 'src/common', src: userConfig.app_files.ctpl, module: 'templates-common', dest: '/templates-common.js'}];
 
 gulp.task('clean', function (cb) {
   del('build', cb);
@@ -21,6 +21,7 @@ gulp.task('templates', ['clean'], function () {
   templates.forEach(function (template) {
     var call = gulp.src(template.src)
       .pipe(html2js({
+        outputModuleName: template.module,
         useStrict: true,
         base: template.base
       }))
@@ -35,9 +36,9 @@ gulp.task('scripts', ['clean'], function () {
   return gulp.src(userConfig.app_files.js)
     .pipe(wrap('(function(){ "use strict"; <%= contents %> })();'))
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('default'))
+    .pipe(gulp.dest(userConfig.build_dir + '/src'));
 });
-
 
 gulp.task('default', ['clean', 'templates', 'scripts'], function () {
   //console.log(userConfig);
