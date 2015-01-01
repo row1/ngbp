@@ -57,13 +57,11 @@ gulp.task('assets', ['clean'], function () {
 });
 
 gulp.task('vendor', ['clean'], function () {
-  var dest = userConfig.build_dir + '/vendor',
-    bowerFiles = gulp.src(bower())
-      .pipe(gulp.dest(dest)),
-    nonBowerFiles = gulp.src(userConfig.vendor_files.js)
-      .pipe(gulp.dest(dest));
-  
-  return merge(bowerFiles, nonBowerFiles);
+  gulp.src(bower()
+            .concat(userConfig.vendor_files.js)
+            .concat(userConfig.vendor_files.css)
+            .concat(userConfig.vendor_files.assets))
+    .pipe(gulp.dest(userConfig.build_dir + '/vendor'));
 });
 
 
