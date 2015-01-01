@@ -1,16 +1,16 @@
 {
-  "author": "Josh David Miller",
-  "name": "ngbp",
-  "version": "0.3.2",
-  "homepage": "https://github.com/ngbp/ngbp",
+  "author": "Rowan Youngson, Josh David Miller",
+  "name": "ngbpgp",
+  "version": "0.0.1",
+  "homepage": "https://github.com/row1/ngbpgp",
   "licenses": {
     "type": "MIT",
-    "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
+    "url": "https://raw.githubusercontent.com/row1/ngbpgp/master/LICENSE"
   },
-  "bugs": "https://github.com/ngbp/ngbp/issues",
+  "bugs": "https://github.com/row1/ngbpgp/issues",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ngbp/ngbp.git"
+    "url": "git@github.com:row1/ngbpgp.git"
   },
   "dependencies": {},
   "devDependencies": {
@@ -34,6 +34,7 @@
     "gulp-concat": "^2.4.3",
     "gulp-html2js": "^0.2.0",
     "gulp-jshint": "^1.9.0",
+    "gulp-less": "^2.0.1",
     "gulp-wrap": "^0.5.0",
     "karma": "^0.12.9",
     "karma-coffee-preprocessor": "^0.2.1",
