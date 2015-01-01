@@ -2,6 +2,7 @@
 /*jslint node: true */
 'use strict';
 var gulp = require('gulp'),
+  bower = require('main-bower-files'),
   concat = require('gulp-concat'),
   del = require('del'),
   merge = require('merge-stream'),
@@ -50,7 +51,22 @@ gulp.task('styles', ['clean'], function () {
     .pipe(gulp.dest(userConfig.build_dir + '/assets'));
 });
 
+gulp.task('assets', ['clean'], function () {
+  return gulp.src('src/assets/**')
+    .pipe(gulp.dest(userConfig.build_dir + '/assets'));
+});
 
-gulp.task('default', ['clean', 'templates', 'scripts', 'styles'], function () {
+gulp.task('vendor', ['clean'], function () {
+  var dest = userConfig.build_dir + '/vendor',
+    bowerFiles = gulp.src(bower())
+      .pipe(gulp.dest(dest)),
+    nonBowerFiles = gulp.src(userConfig.vendor_files.js)
+      .pipe(gulp.dest(dest));
+  
+  return merge(bowerFiles, nonBowerFiles);
+});
+
+
+gulp.task('default', ['clean', 'templates', 'scripts', 'styles', 'assets', 'vendor'], function () {
   //console.log(userConfig);
 });
