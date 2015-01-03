@@ -2,14 +2,15 @@
 /*jslint node: true */
 'use strict';
 var gulp = require('gulp'),
+  angularFilesort = require('gulp-angular-filesort'),
   bower = require('main-bower-files'),
   concat = require('gulp-concat'),
   del = require('del'),
-  merge = require('merge-stream'),
-  concat = require('gulp-concat'),
-  jshint = require('gulp-jshint'),
   html2js = require('gulp-html2js'),
+  inject = require("gulp-inject"),
+  jshint = require('gulp-jshint'),
   less = require('gulp-less'),
+  merge = require('merge-stream'),
   wrap = require("gulp-wrap"),
   userConfig = require('./build.config.js'),
   packageInfo = require('./package.json'),
@@ -57,14 +58,27 @@ gulp.task('assets', ['clean'], function () {
 });
 
 gulp.task('vendor', ['clean'], function () {
-  gulp.src(bower()
+  return gulp.src(bower()
             .concat(userConfig.vendor_files.js)
             .concat(userConfig.vendor_files.css)
             .concat(userConfig.vendor_files.assets))
-    .pipe(gulp.dest(userConfig.build_dir + '/vendor'));
+      .pipe(gulp.dest(userConfig.build_dir + '/vendor'));
+});
+
+gulp.task('index', ['templates', 'scripts', 'styles', 'assets', 'vendor'], function () {
+  var target = gulp.src('./src/index.html'),
+    cssSources = gulp.src([userConfig.build_dir + '/vendor/**/*.css',
+                        userConfig.build_dir + '/assets/**/*.css'], {read: false}),
+    vendorJsSources = gulp.src(userConfig.build_dir + '/vendor/**/*.js', {read: false}),
+    appJsSources = gulp.src([userConfig.build_dir + '/src/**/*.js',
+                        userConfig.build_dir + '/templates-*.js'], {read: true}),
+    sources = [cssSources, vendorJsSources, appJsSources.pipe(angularFilesort())];
+  
+  return target.pipe(inject(merge(sources), {addRootSlash: false}))
+    .pipe(gulp.dest(userConfig.build_dir));
 });
 
 
-gulp.task('default', ['clean', 'templates', 'scripts', 'styles', 'assets', 'vendor'], function () {
+gulp.task('default', ['clean', 'templates', 'scripts', 'styles', 'assets', 'vendor', 'index'], function () {
   //console.log(userConfig);
 });
