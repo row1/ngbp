@@ -65,16 +65,29 @@ gulp.task('vendor', ['clean'], function () {
       .pipe(gulp.dest(userConfig.build_dir + '/vendor'));
 });
 
+//TODO: Clean this up
 gulp.task('index', ['templates', 'scripts', 'styles', 'assets', 'vendor'], function () {
   var target = gulp.src('./src/index.html'),
-    cssSources = gulp.src([userConfig.build_dir + '/vendor/**/*.css',
-                        userConfig.build_dir + '/assets/**/*.css'], {read: false}),
-    vendorJsSources = gulp.src(userConfig.build_dir + '/vendor/**/*.js', {read: false}),
+    cssSources = gulp.src([userConfig.build_dir + '/assets/**/*.css'], {read: false}),
+    vendorJsSources = gulp.src(bower().concat(userConfig.vendor_files.js).concat(userConfig.vendor_files.css), {read: false}),
     appJsSources = gulp.src([userConfig.build_dir + '/src/**/*.js',
                         userConfig.build_dir + '/templates-*.js'], {read: true}),
     sources = [cssSources, vendorJsSources, appJsSources.pipe(angularFilesort())];
-  
-  return target.pipe(inject(merge(sources), {addRootSlash: false}))
+  //for the bower files look at http://lab.brightnorth.co.uk/2014/08/13/automating-linkage-how-i-learned-to-stop-worrying-and-love-the-build/
+  return target.pipe(inject(merge(sources), {
+    addRootSlash: false,
+    transform: function (filePath, file, i, length) {
+      var replacePathsForIndex = /build\/|(vendor\/).*[\\\/]/,
+        correctedPath = filePath.replace(replacePathsForIndex, '$1'),
+        ext = correctedPath.split('.').pop();
+      if (ext === 'js') {
+        return '<script src="' + correctedPath + '"></script>';
+      } else {
+        return '<link rel="stylesheet" href="' + correctedPath + '"/>';
+      }
+     
+    }
+  }))
     .pipe(gulp.dest(userConfig.build_dir));
 });
 
