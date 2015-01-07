@@ -73,7 +73,7 @@ gulp.task('index', ['templates', 'scripts', 'styles', 'assets', 'vendor'], funct
     appJsSources = gulp.src([userConfig.build_dir + '/src/**/*.js',
                         userConfig.build_dir + '/templates-*.js'], {read: true}),
     sources = [cssSources, vendorJsSources, appJsSources.pipe(angularFilesort())];
-  //for the bower files look at http://lab.brightnorth.co.uk/2014/08/13/automating-linkage-how-i-learned-to-stop-worrying-and-love-the-build/
+
   return target.pipe(inject(merge(sources), {
     addRootSlash: false,
     transform: function (filePath, file, i, length) {
@@ -82,10 +82,12 @@ gulp.task('index', ['templates', 'scripts', 'styles', 'assets', 'vendor'], funct
         ext = correctedPath.split('.').pop();
       if (ext === 'js') {
         return '<script src="' + correctedPath + '"></script>';
-      } else {
+      } else if (ext === 'css') {
         return '<link rel="stylesheet" href="' + correctedPath + '"/>';
+      } else {
+        return '';
       }
-     
+   
     }
   }))
     .pipe(gulp.dest(userConfig.build_dir));
@@ -93,5 +95,5 @@ gulp.task('index', ['templates', 'scripts', 'styles', 'assets', 'vendor'], funct
 
 
 gulp.task('default', ['clean', 'templates', 'scripts', 'styles', 'assets', 'vendor', 'index'], function () {
-  //console.log(userConfig);
+
 });
