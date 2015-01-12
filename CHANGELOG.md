@@ -13,3 +13,4 @@
 * Missing support for CoffeeScript
 * Missing support for Karma
 * Missing support for production build
+* Module suffix/prefix not used

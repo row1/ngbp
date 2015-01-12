@@ -1,6 +1,6 @@
-# [ngBoilerplate](http://joshdmiller.github.com/ng-boilerplate) [![Build Status](https://api.travis-ci.org/ngbp/ngbp.png?branch=v0.3.2-release)](https://travis-ci.org/ngbp/ngbp)
+# [ngBoilerplate w/ Gulp](https://github.com/row1/ngbpgp) [![Build Status](https://api.travis-ci.org/row1/ngbpgp.png?branch=v0.0.1)](https://travis-ci.org/row1/ngbpgp)
 
-An opinionated kickstarter for [AngularJS](http://angularjs.org) projects.
+An opinionated kickstarter for [AngularJS](http://angularjs.org) projects using Gulp.
 
 ***
 
@@ -9,12 +9,12 @@ An opinionated kickstarter for [AngularJS](http://angularjs.org) projects.
 Install Node.js and then:
 
 ```sh
-$ git clone git://github.com/joshdmiller/ng-boilerplate
+$ git clone git://github.com/row1/ngbpgp
 $ cd ng-boilerplate
-$ sudo npm -g install grunt-cli karma bower
+$ sudo npm -g install gulp karma bower
 $ npm install
 $ bower install
-$ grunt watch
+$ gulp
 ```
 
 Finally, open `file:///path/to/ng-boilerplate/build/index.html` in your browser.
@@ -32,7 +32,7 @@ around: [Twitter Bootstrap](http://getbootstrap.com),
 [Angular Bootstrap](http://angular-ui.github.io/bootstrap),
 [Font Awesome](http://fortawesome.github.com/Font-Awesome), and
 [LESS](http://lesscss.org). Lastly, it contains a sophisticated
-[Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.
+[Gulp](http://gulpjs.com/)-based streaming build system to ensure maximum productivity.
 All you have to do is clone it and start coding!
 
 ## Philosophy
@@ -73,7 +73,7 @@ At a high level, the structure looks roughly like this:
 
 ```
 ng-boilerplate/
-  |- grunt-tasks/
+  |- gulp-tasks/
   |- karma/
   |- src/
   |  |- app/
@@ -91,7 +91,7 @@ ng-boilerplate/
   |- .bowerrc
   |- bower.json
   |- build.config.js
-  |- Gruntfile.js
+  |- gulpfile.js
   |- module.prefix
   |- module.suffix
   |- package.json
@@ -113,7 +113,7 @@ learn more.
   list of Bower dependencies we need.
 - `build.config.js` - our customizable build settings; see "The Build System"
   below.
-- `Gruntfile.js` - our build script; see "The Build System" below.
+- `gulpfile.js` - our build script; see "The Build System" below.
 - `module.prefix` and `module.suffix` - our compiled application script is
   wrapped in these, which by default are used to place the application inside a
   self-executing anonymous function to ensure no clashes with other libraries.
@@ -125,7 +125,7 @@ learn more.
 This section provides a little more detailed understanding of what goes into
 getting `ngBoilerplate` up and running. Though `ngBoilerplate` is really simple
 to use, it might help to have an understanding of the tools involved here, like
-Node.js and Grunt and Bower. If you're completely new to highly organized,
+Node.js and Gulp and Bower. If you're completely new to highly organized,
 modern JavaScript development, take a few short minutes to read [this overview
 of the tools](tools.md) before continuing with this section.
 
