@@ -42,6 +42,7 @@ gulp.task('scripts', ['clean'], function () {
     .pipe(wrap('(function(){ "use strict"; <%= contents %> })();'))
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'))
     .pipe(gulp.dest(userConfig.build_dir + '/src'));
 });
 
@@ -77,6 +78,7 @@ gulp.task('index', ['templates', 'scripts', 'styles', 'assets', 'vendor'], funct
   return target.pipe(inject(merge(sources), {
     addRootSlash: false,
     transform: function (filePath, file, i, length) {
+      /*jslint regexp: true*/
       var replacePathsForIndex = /build\/|(vendor\/).*[\\\/]/,
         correctedPath = filePath.replace(replacePathsForIndex, '$1'),
         ext = correctedPath.split('.').pop();
